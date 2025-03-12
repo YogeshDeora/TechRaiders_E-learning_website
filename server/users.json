@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Aman",
+    "email": "aman@gmail.com",
+    "password": "$2b$10$cVfWu4bf7gRCQ0W7a944ZOPEhbgTe53pFYIgxhF2CyDnRi0mL5LtW"
+  },
+  {
+    "name": "Ankit",
+    "email": "ankitww@gmail.com",
+    "password": "$2b$10$eiJxGJKJxzvliZUVOIrDVe4jtcyWO376npx2Ujwle16tyMVAxP3ia"
+  },
+  {
+    "name": "rohan",
+    "email": "rohan22@gmail.com",
+    "password": "$2b$10$HAlAJ9.3fEbUO8KchHrZy.24kjra.Xt5a.g./.lO5Z3CmWgiTRpsy"
+  },
+  {
+    "name": "Akshita",
+    "email": "akshita017@gmail.com",
+    "password": "$2b$10$LrW2UBRcPu2YUXAZxPwjcOwD0BFTga7/yrmfBRxSj585RPSYmr0t6",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFrc2hpdGEwMTdAZ21haWwuY29tIiwiaWF0IjoxNzQxMjkwMjAwLCJleHAiOjE3NDEyOTM4MDB9.ExITtvV82tgKhcOnrrHZW5fTPIzOSqgsJSmlPXY48zc"
+  },
+  {
+    "name": "Ankit ",
+    "email": "ankit22@gmail.com",
+    "password": "$2b$10$H/BcrApnZXTRx6/hnWZ.3uwbdhT2VWDtOteV6hu53e4n.xSPE2GP6",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFua2l0MjJAZ21haWwuY29tIiwiaWF0IjoxNzQxMjcwNjc3LCJleHAiOjE3NDEyNzQyNzd9.3V7uyIuJ2LUgDszXb_FRU016WSP8jOlz80BpfmBuYpU"
+  },
+  {
+    "name": "Akshitaaaa",
+    "email": "akshi7@gmail.com",
+    "password": "$2b$10$yXmMBM5YhlbmVY97//CLV.jb8KhIGDVVO0SvMYMhtifVSkBD9ntj."
+  },
+  {
+    "name": "yogesh",
+    "email": "yogeash@gmail.com",
+    "password": "$2b$10$oz2GBkENFswYj/pfamWUsu3LdBwu5Wh6oTDyIELkhImOtAXc80sS6"
+  },
+  {
+    "name": "aman",
+    "email": "aman221@gmail.com",
+    "password": "$2b$10$fpVPfmkZ5Hb.q2Hj1sFgZOL2oGPfIRghRPivmvAq0t/WTt.IxY9vy"
+  },
+  {
+    "name": "yug",
+    "email": "yug@gmail.com",
+    "password": "$2b$10$FIfv2l.iqTQ/UPMslvoBBOvc5a0c/9Dmy5kFyMe659hqAySbLo.VW",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inl1Z0BnbWFpbC5jb20iLCJpYXQiOjE3NDE2OTcwNzgsImV4cCI6MTc0MTcwMDY3OH0.9O7WdVpas1XWAImSh_CA510GxbIvvkjgrUa5sj0rveM"
+  },
+  {
+    "name": "Yogesh",
+    "email": "yogesh123@gmail.com",
+    "password": "$2b$10$aJvH8ODAlilICw3FSG5HeOtAhbeg3iAvppADMri4VwczIdVzokM5C",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvZ2VzaDEyM0BnbWFpbC5jb20iLCJpYXQiOjE3NDE2OTk1MTksImV4cCI6MTc0MTcwMzExOX0.mlB2onf368PiDPAmfENV7b2TfHMeelBCzLVqzlcSGdU"
+  }
+]
