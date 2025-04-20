@@ -7,9 +7,9 @@ import AuthPage from "./AuthPage";
 import Header from "../components/Header";
 
 const SignupApi = {
-  sendOtp: { url: "http://localhost:8000/api/send-otp" },
-  verifyOtp: { url: "http://localhost:8000/api/verify-otp" },
-  login: { url: "http://localhost:8000/api/login" },
+  sendOtp: { url: "http://localhost:8000/api/otp/send-otp" },
+  verifyOtp: { url: "http://localhost:8000/api/otp/verify-otp" },
+  login: { url: "http://localhost:8000/api/auth/login" },
 };
 
 function Login() {
@@ -24,7 +24,6 @@ function Login() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  // Step 1: Check Password First
   const checkPassword = async () => {
     if (!data.email || !data.password) {
       alert("Please enter a valid email and password");
@@ -42,8 +41,11 @@ function Login() {
 
       if (response.ok) {
         alert("Password verified! Sending OTP...");
+        localStorage.setItem("loggedInUserEmail", data.email);
+        localStorage.setItem("loggedInUserName", data.name);
+        // localStorage.setItem("token", data.token);
         setPasswordVerified(true);
-        requestOTP(); // Automatically send OTP after password verification
+        requestOTP();
       } else {
         alert(result.message || "Invalid credentials.");
       }
@@ -53,12 +55,11 @@ function Login() {
     }
   };
 
-  // Step 2: Send OTP After Password Verification
   const requestOTP = async () => {
-    // if (!passwordVerified) {
-    //   alert("Please verify your password first.");
-    //   return;
-    // }
+    if (!passwordVerified) {
+      alert("Please verify your password first.");
+      return;
+    }
 
     try {
       const response = await fetch(SignupApi.sendOtp.url, {
@@ -80,7 +81,6 @@ function Login() {
     }
   };
 
-  // Step 3: Verify OTP
   const verifyOTP = async () => {
     if (!otp) {
       alert("Please enter the OTP.");
@@ -107,24 +107,36 @@ function Login() {
     }
   };
 
-  // Step 4: Final Login After OTP Verification
-  const handleFinalLogin = () => {
+  const handleFinalLogin = async () => {
     if (!otpVerified) {
       alert("Please verify OTP first.");
       return;
     }
 
     alert("Login successful!");
-    localStorage.setItem("token", "dummy-token"); // Replace with actual token
-    window.location.href = "/dashboard"; // Redirect
+
+    // Save complete user object
+    const user = {
+      email: data.email,
+      name: data.name // You can replace this with actual name from DB if available
+    };
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", "dummy-token");
+
+    // Optional: clear intermediate auth info
+    localStorage.removeItem("loggedInUserEmail");
+    localStorage.removeItem("loggedInUserName");
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    window.location.href = "/dashboard";
+
   };
 
   return (
     <>
       <Header />
       <AuthPage>
-        {/* Tabs */}
-        <div className="flex mb-6">
+        <div className="flex mb-6 font-[Sen]">
           <Link to="/signup" className="w-1/2 py-3 text-gray-500 hover:text-white transition text-center">
             Signup
           </Link>
@@ -133,16 +145,13 @@ function Login() {
           </Link>
         </div>
 
-        {/* Title */}
-        <h1 className="text-center text-3xl font-bold mb-2 text-[#FACC15]">Login</h1>
-        <p className="text-center text-gray-400 mb-6 text-sm">
+        <h1 className="text-center text-3xl font-bold mb-2 text-[#FACC15] font-[Sen]">Login</h1>
+        <p className="text-center text-gray-400 mb-6 text-sm font-[Sen]">
           Login with your email & password. If you are new, please sign up.
         </p>
 
-        {/* Login Form */}
         <div>
-          {/* Email Input */}
-          <div className="mb-5">
+          <div className="mb-5 font-[Sen]">
             <label className="text-gray-300 text-sm font-medium">Email</label>
             <div className="relative mt-2">
               <CiMail className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" size={18} />
@@ -158,7 +167,6 @@ function Login() {
             </div>
           </div>
 
-          {/* Password Input */}
           <div className="mb-5">
             <label className="text-gray-300 text-sm font-medium">Password</label>
             <div className="relative mt-2">
@@ -181,39 +189,39 @@ function Login() {
             </div>
           </div>
 
-          {/* Check Password Button */}
-          {!passwordVerified && (
-            <button className="mb-5 bg-[#FACC15] text-black w-full p-3 rounded-lg hover:bg-yellow-500 transition" onClick={checkPassword}>
-              Verify Password
-            </button>
-          )}
+          <button
+            className="w-full bg-[#ffffffcf] text-black py-3 rounded-lg hover:bg-[#ffffff3c] transition"
+            onClick={checkPassword}
+          >
+            Verify Password
+          </button>
 
-          {/* OTP Section */}
-          {passwordVerified && !otpSent && (
-            <button className="mb-5 bg-[#4F46E5] text-white w-full p-3 rounded-lg hover:bg-[#3B37C9] transition" onClick={requestOTP}>
-              Send OTP
-            </button>
-          )}
-
-          {otpSent && (
-            <div className="mb-5">
+          {otpSent && !otpVerified && (
+            <div className="mt-5">
               <label className="text-gray-300 text-sm font-medium">Enter OTP</label>
-              <input
-                type="text"
-                placeholder="Enter OTP"
-                className="w-full h-12 p-3 bg-gray-700 text-white border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-              />
-              <button className="mt-3 bg-[#4F46E5] text-white w-full p-3 rounded-lg hover:bg-[#3B37C9] transition" onClick={verifyOTP}>
+              <div className="relative mt-2">
+                <input
+                  type="text"
+                  placeholder="Enter the OTP"
+                  className="w-full h-12 p-3 bg-gray-700 text-white border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+              </div>
+              <button
+                className="w-full bg-[#4F46E5] text-white py-3 rounded-lg hover:bg-[#3B37C9] transition mt-3"
+                onClick={verifyOTP}
+              >
                 Verify OTP
               </button>
             </div>
           )}
 
-          {/* Final Login Button */}
           {otpVerified && (
-            <button className="w-full bg-[#4F46E5] text-white py-3 rounded-lg hover:bg-[#3B37C9] transition" onClick={handleFinalLogin}>
+            <button
+              className="w-full bg-[#4F46E5] text-white py-3 rounded-lg hover:bg-[#3B37C9] transition mt-3"
+              onClick={handleFinalLogin}
+            >
               Login
             </button>
           )}

@@ -8,9 +8,14 @@ import Header from "../components/Header";
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
-  const [data, setData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
-  const [error, setError] = useState(""); // To show error messages
-  const navigate = useNavigate(); // Redirect after successful signup
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -19,7 +24,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
+    // Validation
     if (!data.name || !data.email || !data.password || !data.confirmPassword) {
       setError("All fields are required.");
       return;
@@ -30,11 +35,9 @@ function Signup() {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/signup", {
+      const response = await fetch("http://localhost:8000/api/auth/signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
@@ -45,10 +48,20 @@ function Signup() {
         return;
       }
 
+      // ✅ Save user email or full user object
+      if (result.user) {
+        localStorage.setItem("user", JSON.stringify(result.user));
+      } else {
+        localStorage.setItem("user", JSON.stringify({ email: data.email }));
+      }
+
+      // ✅ Debug log
+      console.log("User saved to localStorage:", localStorage.getItem("user"));
+
       alert("Signup successful! Redirecting to login...");
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
     } catch (error) {
-      console.error("Error during signup:", error);
+      console.error("Signup error:", error);
       setError("Something went wrong. Please try again.");
     }
   };
@@ -56,8 +69,8 @@ function Signup() {
   return (
     <>
     <Header />
-<AuthPage>
-  <div className="w-full bg-gray-800  rounded-2xl p-2 mx-auto ">
+<AuthPage >
+  <div className="w-full  bg-gray-800  rounded-2xl p-2 mx-auto font-[Sen] ">
     {/* Signup/Login Tabs */}
     <div className="flex mb-6">
       <Link to="/signup" className="w-1/2 py-3 text-white border-b-2 border-[#FACC15] font-semibold text-center">
@@ -83,7 +96,7 @@ function Signup() {
       <div className="mb-5">
         <label className="text-gray-300 text-sm font-medium">Full Name</label>
         <div className="relative mt-2">
-          <FaUser  className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" size={18} />
+          <FaUser className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" size={18} />
           <input
             type="text"
             placeholder="Name"
@@ -163,7 +176,7 @@ function Signup() {
     </form>
 
     {/* Login Link */}
-    <p className="text-center text-sm text-gray-600 mt-5">
+    <p className="text-center text-sm text-gray-400 mt-5">
       Already have an account?{" "}
       <Link to={"/login"} className="text-[#FACC15] font-semibold hover:underline">
         Login

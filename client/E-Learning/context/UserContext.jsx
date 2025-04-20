@@ -9,12 +9,12 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token"); // Assume token is stored after login
+        const token = localStorage.getItem("token");
         const response = await fetch("http://localhost:8000/user", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Send token to verify user
+            Authorization: `Bearer ${token}`, // Include token for authentication
           },
         });
 
@@ -36,8 +36,8 @@ export const UserProvider = ({ children }) => {
   const updateUser = async (newUser) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8000/user", {
-        method: "POST",
+      const response = await fetch(`http://localhost:8000/user/${newUser.id}`, {
+        method: "PUT", // Corrected from POST to PUT for updates
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

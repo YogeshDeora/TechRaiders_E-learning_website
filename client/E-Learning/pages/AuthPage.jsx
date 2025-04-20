@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 
 function AuthPage({ children }) {
   return (
-    <div className="relative w-full h-screen px-10 bg-zinc-900 flex items-center justify-center mt-12  ">
-      {/* Background Gradient Animation */}
+    <div className="relative w-full h-full min-h-screen p-10 px-10 bg-zinc-900 flex items-center justify-center mt-12 ">
+
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-[#1E1E2E] via-[#27293D] to-[#121212] opacity-50"
         initial={{ opacity: 0 }}
